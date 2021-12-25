@@ -1,0 +1,17 @@
+Metadata-Version: 2.1
+Name: next-episode
+Version: 0.0.1
+Summary: UNKNOWN
+Home-page: UNKNOWN
+Author: Sven Speckmaier
+License: UNKNOWN
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Description-Content-Type: text/markdown
+
+# Next Episode
+
+next-episode is a set of console commands intended to make it easier to rename files into kodi series format
+
