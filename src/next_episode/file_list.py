@@ -42,6 +42,15 @@ class File:
     def applyNextSeasonTag(self):
         self.applyTag(self.nextSeasonTag() )
 
+    def removeTag(self):
+        if not self.hasTag():
+            return
+
+        os.rename(
+            self.directoryPath+'/'+self.name,
+            self.directoryPath+'/'+self.nameWithoutTag()
+        )
+
     def applyTag(self, tag):
         if self.hasTag():
             return
@@ -51,6 +60,10 @@ class File:
             self.directoryPath+'/'+self.nameWithTag(tag)
                   )
 
+    def nameWithoutTag(self):
+        name, _, extension = self.nameTagExtension()
+        return '.'.join([name, extension])
+
     def nameWithTag(self, tag):
         name, _, extension = self.nameTagExtension()
         return '.'.join([name, tag, extension])
@@ -58,12 +71,15 @@ class File:
     def nextEpisodeTag(self):
         fileList = FileList.fromFilenames( self.siblings() )
 
-        return "s%02de%02d" % (fileList.currentSeason(), fileList.nextEpisode())
+        return self.tag(fileList.currentSeason(), fileList.nextEpisode())
 
     def nextSeasonTag(self):
         fileList = FileList.fromFilenames( self.siblings() )
+        return self.tag(fileList.nextSeason(), 1)
 
-        return "s%02de%02d" % (fileList.nextSeason(), 1)
+
+    def tag(self, season, episode):
+        return "s%02de%02d" % (season, episode)
 
     def nameTagExtension(self):
         match = re.match('(.*?)(\.s[0-9]+e[0-9]+)?\.([^.]+)', self.name)

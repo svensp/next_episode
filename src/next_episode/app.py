@@ -19,6 +19,13 @@ class App:
         target.applyNextSeasonTag()
         return 0
 
+    def removeTag(self):
+        self.assertFileArgumentPassed()
+
+        target = File.fromRelativePath(sys.argv[1])
+        target.removeTag()
+        return 0
+
     def assertFileArgumentPassed(self):
         if len(sys.argv) < 2:
             self.printHelp()
@@ -27,3 +34,4 @@ class App:
     def printHelp(self):
         print("USAGE")
         print(sys.argv[0]+" path/to/next/file")
+
