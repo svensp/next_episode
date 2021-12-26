@@ -1,11 +1,23 @@
 import re
+import os
 
 class NotFoundException(Exception):
     pass
 
 class File:
     def __init__(self, name):
+        self.directoryPath = None
+        self.name = name
         self.match = re.match('.+\.s([0-9]+)e([0-9]+)\..+', name)
+
+    @staticmethod
+    def fromRelativePath(relativePath):
+        file = File.fromName( os.path.basename(relativePath) )
+
+        target = os.path.abspath(relativePath)
+        file.directoryPath = os.path.dirname(target)
+
+        return file
 
     @staticmethod
     def fromName(name):
@@ -20,6 +32,47 @@ class File:
 
     def episode(self):
         return int( self.match.group(2) )
+
+    def siblings(self):
+        return list( filter( lambda file: file != self.name, os.listdir(self.directoryPath) ) )
+
+    def applyNextEpisodeTag(self):
+        self.applyTag(self.nextEpisodeTag() )
+
+    def applyNextSeasonTag(self):
+        self.applyTag(self.nextSeasonTag() )
+
+    def applyTag(self, tag):
+        if self.hasTag():
+            return
+
+        os.rename(
+            self.directoryPath+'/'+self.name,
+            self.directoryPath+'/'+self.nameWithTag(tag)
+                  )
+
+    def nameWithTag(self, tag):
+        name, _, extension = self.nameTagExtension()
+        return '.'.join([name, tag, extension])
+
+    def nextEpisodeTag(self):
+        fileList = FileList.fromFilenames( self.siblings() )
+
+        return "s%02de%02d" % (fileList.currentSeason(), fileList.nextEpisode())
+
+    def nextSeasonTag(self):
+        fileList = FileList.fromFilenames( self.siblings() )
+
+        return "s%02de%02d" % (fileList.nextSeason(), 1)
+
+    def nameTagExtension(self):
+        match = re.match('(.*?)(\.s[0-9]+e[0-9]+)?\.([^.]+)', self.name)
+        return [match.group(1), match.group(2), match.group(3)]
+
+    def hasTag(self):
+        _, tag, _ = self.nameTagExtension()
+        return tag is not None
+
 
 class FileList:
     def __init__(self, fileNames):
