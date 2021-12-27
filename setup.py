@@ -19,5 +19,6 @@ setup(name="next_episode",
           'bin/next-episode',
           'bin/next-season',
           'bin/remove-episode',
+          'bin/fill-episode',
                ]
       )

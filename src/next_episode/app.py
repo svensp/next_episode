@@ -26,6 +26,13 @@ class App:
         target.removeTag()
         return 0
 
+    def fillEpisode(self):
+        self.assertFileArgumentPassed()
+
+        target = File.fromRelativePath(sys.argv[1])
+        target.applyFillerTag()
+        return 0
+
     def assertFileArgumentPassed(self):
         if len(sys.argv) < 2:
             self.printHelp()

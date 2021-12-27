@@ -1,8 +1,10 @@
 import re
 import os
 
+
 class NotFoundException(Exception):
     pass
+
 
 class File:
     def __init__(self, name):
@@ -42,6 +44,9 @@ class File:
     def applyNextSeasonTag(self):
         self.applyTag(self.nextSeasonTag() )
 
+    def applyFillerTag(self):
+        self.applyTag( self.nextFillerTag() )
+
     def removeTag(self):
         if not self.hasTag():
             return
@@ -76,6 +81,13 @@ class File:
     def nextSeasonTag(self):
         fileList = FileList.fromFilenames( self.siblings() )
         return self.tag(fileList.nextSeason(), 1)
+
+    def nextFillerTag(self):
+        fileList = FileList.fromFilenames( self.siblings() )
+        season, episode = fileList.nextFiller()
+
+
+        return self.tag(season, episode)
 
 
     def tag(self, season, episode):
@@ -122,6 +134,19 @@ class FileList:
         except NotFoundException:
             return 1
 
+    def nextFiller(self):
+        highestSeason = self.highestSeason()
+
+        for currentSeason in oneBasedRange(highestSeason):
+            highestEpisode = self.highestIn( self.episodesInSeason(currentSeason), lambda file: file.episode())
+            episodes = list( map(lambda file: file.episode(), self.episodesInSeason(currentSeason) ) )
+            print(currentSeason, episodes)
+            for currentEpisode in range(1, highestEpisode):
+                if currentEpisode not in episodes:
+                    return [currentSeason, currentEpisode]
+
+        return [self.currentSeason(), self.nextEpisode()]
+
     def highestSeason(self):
         return self.highestIn(self.filesFromFileNames(), lambda file: file.season())
 
@@ -151,3 +176,6 @@ class FileList:
             file.appendSeasonList(files)
 
         return files
+
+def oneBasedRange(end):
+    return range(1, end+1)
