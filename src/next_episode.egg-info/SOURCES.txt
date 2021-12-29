@@ -1,6 +1,7 @@
 README.md
 setup.py
 bin/fill-episode
+bin/generate-nfo
 bin/next-episode
 bin/next-season
 bin/remove-episode

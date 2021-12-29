@@ -1,12 +1,11 @@
-#!/sbin/python3
-
 import sys
-
 from .file_list import FileList, File
 
+
 class App:
-    def nextEpisode(self):
+    def next_episode(self):
         self.assertFileArgumentPassed()
+
 
         target = File.fromRelativePath(sys.argv[1])
         target.applyNextEpisodeTag()
@@ -32,6 +31,12 @@ class App:
         target = File.fromRelativePath(sys.argv[1])
         target.applyFillerTag()
         return 0
+
+    def generateNfo(self):
+        self.assertFileArgumentPassed()
+
+        target = File.fromRelativePath(sys.argv[1])
+        target.generateNfo()
 
     def assertFileArgumentPassed(self):
         if len(sys.argv) < 2:

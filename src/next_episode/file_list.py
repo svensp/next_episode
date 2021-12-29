@@ -1,6 +1,6 @@
 import re
 import os
-
+import uuid
 
 class NotFoundException(Exception):
     pass
@@ -46,6 +46,20 @@ class File:
 
     def applyFillerTag(self):
         self.applyTag( self.nextFillerTag() )
+
+    def generateNfo(self):
+        if not self.hasTag():
+            return
+
+        name, tag, _ = self.nameTagExtension()
+        with open( self.directoryPath + '/' + name+tag+'.nfo', 'w') as file:
+            file.write(
+                '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>\n'
+                '<episodedetails>\n'
+                '    <title>'+name+'</title>\n'
+                '    <uniqueid type="home" default="true">'+str(uuid.uuid4())+'</uniqueid>\n'
+                '</episodedetails>'
+            )
 
     def removeTag(self):
         if not self.hasTag():
@@ -140,7 +154,6 @@ class FileList:
         for currentSeason in oneBasedRange(highestSeason):
             highestEpisode = self.highestIn( self.episodesInSeason(currentSeason), lambda file: file.episode())
             episodes = list( map(lambda file: file.episode(), self.episodesInSeason(currentSeason) ) )
-            print(currentSeason, episodes)
             for currentEpisode in range(1, highestEpisode):
                 if currentEpisode not in episodes:
                     return [currentSeason, currentEpisode]

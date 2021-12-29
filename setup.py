@@ -20,5 +20,6 @@ setup(name="next_episode",
           'bin/next-season',
           'bin/remove-episode',
           'bin/fill-episode',
+          'bin/generate-nfo',
                ]
       )
