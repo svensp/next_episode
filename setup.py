@@ -7,14 +7,19 @@ setup(name="next_episode",
       version="1.0.0",
       author="Sven Speckmaier",
       license="MIT",
+      url='',
       packages=find_packages(where="src"),
       long_description=long_description,
       long_description_content_type="text/markdown",
+      install_requires=[
+          'uuid'
+      ],
       package_dir={"": "src"},
       classifiers=[
           "Programming Language :: Python :: 3",
           "License :: OSI Approved :: MIT License",
           "Operating System :: OS Independent",
+          'Intended Audience :: Kodi Users',
       ],
       scripts=[
           'bin/next-episode',
