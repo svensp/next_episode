@@ -3,7 +3,7 @@ from .lib import mock_current_directory, expected_file, mocked_handle
 import mock
 
 
-class TestFileApplyNextEpisodeTag:
+class TestFileGenerateNfo:
 
     @mock.patch('next_episode.file_list.open', create=True)
     @mock.patch('next_episode.file_list.uuid')
@@ -13,7 +13,7 @@ class TestFileApplyNextEpisodeTag:
         uuid.uuid4.return_value = 'mock-uuid'
 
         file = file_list.File.fromRelativePath('./test.s01e01.txt')
-        file.generateNfo()
+        file.generate_nfo()
 
         mock_open.assert_called_once_with('./test.s01e01.nfo', 'w')
         handle = mocked_handle(mock_open)
@@ -25,6 +25,6 @@ class TestFileApplyNextEpisodeTag:
         mock_current_directory(mock_os, [], 'test.txt')
 
         file = file_list.File.fromRelativePath('./test.txt')
-        file.generateNfo()
+        file.generate_nfo()
 
         assert not mock_open.called

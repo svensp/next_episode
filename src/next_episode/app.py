@@ -1,10 +1,12 @@
 import sys
+import os
 from .file_list import FileList, File
+from .series_nfo import SeriesNfo
 
 
 class App:
     def next_episode(self):
-        self.assertFileArgumentPassed()
+        self.assert_argument_passed()
 
 
         target = File.fromRelativePath(sys.argv[1])
@@ -12,38 +14,42 @@ class App:
         return 0
 
     def nextSeason(self):
-        self.assertFileArgumentPassed()
+        self.assert_argument_passed()
 
         target = File.fromRelativePath(sys.argv[1])
         target.applyNextSeasonTag()
         return 0
 
     def removeTag(self):
-        self.assertFileArgumentPassed()
+        self.assert_argument_passed()
 
         target = File.fromRelativePath(sys.argv[1])
         target.removeTag()
         return 0
 
     def fillEpisode(self):
-        self.assertFileArgumentPassed()
+        self.assert_argument_passed()
 
         target = File.fromRelativePath(sys.argv[1])
         target.applyFillerTag()
         return 0
 
-    def generateNfo(self):
-        self.assertFileArgumentPassed()
+    def generate_nfo(self):
+        self.assert_argument_passed()
 
         target = File.fromRelativePath(sys.argv[1])
-        target.generateNfo()
+        target.generate_nfo()
 
-    def assertFileArgumentPassed(self):
+    def generate_series_nfo(self):
+        series_nfo = SeriesNfo.fromDirectory(os.getcwd())
+        series_nfo.save()
+
+    def assert_argument_passed(self):
         if len(sys.argv) < 2:
-            self.printHelp()
+            self.print_help()
             sys.exit(1)
 
-    def printHelp(self):
+    def print_help(self):
         print("USAGE")
         print(sys.argv[0]+" path/to/next/file")
 

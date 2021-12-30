@@ -2,6 +2,7 @@ import re
 import os
 import uuid
 
+
 class NotFoundException(Exception):
     pass
 
@@ -47,12 +48,12 @@ class File:
     def applyFillerTag(self):
         self.applyTag( self.nextFillerTag() )
 
-    def generateNfo(self):
+    def generate_nfo(self):
         if not self.hasTag():
             return
 
         name, tag, _ = self.nameTagExtension()
-        with open( self.directoryPath + '/' + name+tag+'.nfo', 'w') as file:
+        with open(self.directoryPath + '/' + name+tag+'.nfo', 'w') as file:
             file.write(
                 '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>\n'
                 '<episodedetails>\n'

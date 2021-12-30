@@ -21,5 +21,6 @@ setup(name="next_episode",
           'bin/remove-episode',
           'bin/fill-episode',
           'bin/generate-nfo',
+          'bin/generate-series-nfo',
                ]
       )

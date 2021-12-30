@@ -4,4 +4,4 @@ import sys
 from next_episode import app
 
 app = app.App()
-sys.exit(app.generate_nfo())
+sys.exit( app.generate_series_nfo() )
