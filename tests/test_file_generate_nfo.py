@@ -28,3 +28,20 @@ class TestFileGenerateNfo:
         file.generate_nfo()
 
         assert not mock_open.called
+
+    @mock.patch('next_episode.file_list.open', create=True)
+    @mock.patch('next_episode.file_list.uuid')
+    @mock.patch('next_episode.file_list.os')
+    def test_should_create_nfo_file_with_artwork_if_present(self, mock_os, uuid, mock_open):
+        mock_current_directory(mock_os, ['with-artwork.jpg'], 'with-artwork.s01e01.txt')
+        uuid.uuid4.return_value = 'mock-uuid'
+
+        file = file_list.File.fromRelativePath('./with-artwork.s01e01.txt')
+        file.generate_nfo()
+
+        mock_open.assert_called_once_with('./with-artwork.s01e01.nfo', 'w')
+        handle = mocked_handle(mock_open)
+        handle.write.assert_called_once_with(expected_file('with-artwork.s01e01.nfo', {
+            'UUID': 'mock-uuid',
+            'ARTWORK': 'with-artwork.jpg'
+        }))

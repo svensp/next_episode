@@ -59,8 +59,20 @@ class File:
                 '<episodedetails>\n'
                 '    <title>'+name+'</title>\n'
                 '    <uniqueid type="home" default="true">'+str(uuid.uuid4())+'</uniqueid>\n'
+                +self.thumb()+
                 '</episodedetails>'
             )
+
+    def thumb(self):
+        if not self.hasArt():
+            return ''
+
+        name, _, _ = self.nameTagExtension()
+        return '    <thumb type="thumb" preview="">'+name+'.jpg</thumb>\n'
+
+    def hasArt(self):
+        name, _, _ = self.nameTagExtension()
+        return name+'.jpg' in self.siblings()
 
     def removeTag(self):
         if not self.hasTag():
