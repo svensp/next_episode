@@ -33,3 +33,9 @@ def templated(text, replacements=None):
 
 def mocked_handle(mock_open):
     return mock_open.return_value.__enter__.return_value
+
+
+def assert_file_written(mock_open, expected_path, expected_content):
+    mock_open.assert_called_once_with(expected_path, 'w')
+    handle = mocked_handle(mock_open)
+    handle.write.assert_called_once_with(expected_content)

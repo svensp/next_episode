@@ -1,5 +1,7 @@
 import os
 import uuid
+from .template import indentedText
+from .artwork import ArtworkFactory
 
 class SeriesNfo:
     @staticmethod
@@ -17,10 +19,31 @@ class SeriesNfo:
             file.write(
                 '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>\n'
                 '<tvshow>\n'
-                '    <title>' + self.title_from_directory() + '</title>\n'
-                '    <uniqueid type="home" default="true">' + str(uuid.uuid4()) + '</uniqueid>\n'
+                + indentedText(4, '<title>' + self.title_from_directory() + '</title>\n')
+                + indentedText(4, '<uniqueid type="home" default="true">' + str(uuid.uuid4()) + '</uniqueid>\n')
+                + self.thumb() +
                 '</tvshow>'
             )
+
+    def thumb(self):
+        if not self.has_thumb():
+            return ''
+
+        artwork = ArtworkFactory.from_path(self.possible_thumb())
+        return indentedText(4, artwork.thumb())
+
+    def has_thumb(self):
+        siblings = os.listdir(self.directory)
+
+        if self.possible_thumb() in siblings:
+            return True
+
+        return False
+
+    def possible_thumb(self):
+        title = self.title_from_directory()
+
+        return title+'.jpg'
 
     def tv_series_nfo(self):
         return self.directory+'/tvseries.nfo'

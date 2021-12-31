@@ -1,6 +1,8 @@
 import re
 import os
 import uuid
+from .artwork import ArtworkFactory
+from .template import indentedText
 
 
 class NotFoundException(Exception):
@@ -57,9 +59,9 @@ class File:
             file.write(
                 '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>\n'
                 '<episodedetails>\n'
-                '    <title>'+name+'</title>\n'
-                '    <uniqueid type="home" default="true">'+str(uuid.uuid4())+'</uniqueid>\n'
-                +self.thumb()+
+                + indentedText(4, '<title>'+name+'</title>\n')
+                + indentedText(4, '<uniqueid type="home" default="true">'+str(uuid.uuid4())+'</uniqueid>\n')
+                + self.thumb() +
                 '</episodedetails>'
             )
 
@@ -67,12 +69,15 @@ class File:
         if not self.hasArt():
             return ''
 
-        name, _, _ = self.nameTagExtension()
-        return '    <thumb type="thumb" preview="">'+name+'.jpg</thumb>\n'
+        artwork = ArtworkFactory.from_path(self.possible_art_path())
+        return indentedText(4, artwork.thumb())
 
     def hasArt(self):
+        return self.possible_art_path() in self.siblings()
+
+    def possible_art_path(self):
         name, _, _ = self.nameTagExtension()
-        return name+'.jpg' in self.siblings()
+        return name+'.jpg'
 
     def removeTag(self):
         if not self.hasTag():

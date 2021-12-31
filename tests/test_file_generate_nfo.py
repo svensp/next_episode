@@ -1,5 +1,5 @@
 from next_episode import file_list
-from .lib import mock_current_directory, expected_file, mocked_handle
+from .lib import mock_current_directory, expected_file, assert_file_written
 import mock
 
 
@@ -15,9 +15,7 @@ class TestFileGenerateNfo:
         file = file_list.File.fromRelativePath('./test.s01e01.txt')
         file.generate_nfo()
 
-        mock_open.assert_called_once_with('./test.s01e01.nfo', 'w')
-        handle = mocked_handle(mock_open)
-        handle.write.assert_called_once_with(expected_file('test.s01e01.nfo', {'UUID': 'mock-uuid'}))
+        assert_file_written(mock_open, './test.s01e01.nfo', expected_file('test.s01e01.nfo', {'UUID': 'mock-uuid'}))
 
     @mock.patch('next_episode.file_list.open', create=True)
     @mock.patch('next_episode.file_list.os')
@@ -39,9 +37,7 @@ class TestFileGenerateNfo:
         file = file_list.File.fromRelativePath('./with-artwork.s01e01.txt')
         file.generate_nfo()
 
-        mock_open.assert_called_once_with('./with-artwork.s01e01.nfo', 'w')
-        handle = mocked_handle(mock_open)
-        handle.write.assert_called_once_with(expected_file('with-artwork.s01e01.nfo', {
+        assert_file_written(mock_open, './with-artwork.s01e01.nfo', expected_file('with-artwork.s01e01.nfo', {
             'UUID': 'mock-uuid',
             'ARTWORK': 'with-artwork.jpg'
         }))
