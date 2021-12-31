@@ -9,6 +9,9 @@ class Artwork:
         self.path = path
 
     def thumb(self):
-        return '<thumb preview="">'+self.path+'</thumb>\n'
+        return '<thumb aspect="'+self.aspect()+'" preview="">'+self.path+'</thumb>\n'
+
+    def aspect(self):
+        return 'banner'
 
 

@@ -2,5 +2,5 @@
 <tvshow>
     <title>%%TITLE%%</title>
     <uniqueid type="home" default="true">%%UUID%%</uniqueid>
-    <thumb preview="">%%ARTWORK%%</thumb>
+    <thumb aspect="banner" preview="">%%ARTWORK%%</thumb>
 </tvshow>
