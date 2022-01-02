@@ -55,7 +55,7 @@ class File:
             return
 
         name, tag, _ = self.nameTagExtension()
-        with open(self.directoryPath + '/' + name+tag+'.nfo', 'w') as file:
+        with open(self.directoryPath + '/' + name+'.'+tag+'.nfo', 'w') as file:
             file.write(
                 '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>\n'
                 '<episodedetails>\n'
@@ -75,10 +75,6 @@ class File:
     def hasArt(self):
         return self.possible_art_path() in self.siblings()
 
-    def possible_art_path(self):
-        name, _, _ = self.nameTagExtension()
-        return name+'.jpg'
-
     def removeTag(self):
         if not self.hasTag():
             return
@@ -87,6 +83,13 @@ class File:
             self.directoryPath+'/'+self.name,
             self.directoryPath+'/'+self.nameWithoutTag()
         )
+
+        _, tag, _ = self.nameTagExtension()
+        self.remove_artwork_tag(tag)
+
+    def possible_art_path(self):
+        name, _, _ = self.nameTagExtension()
+        return name+'.jpg'
 
     def applyTag(self, tag):
         if self.hasTag():
@@ -105,6 +108,15 @@ class File:
         os.rename(
             self.full_path(self.artwork_name_without_tag()),
             self.full_path(self.artwork_name_with_tag(tag))
+        )
+
+    def remove_artwork_tag(self, tag):
+        if not self.artwork_name_with_tag(tag) in self.siblings():
+            return
+
+        os.rename(
+            self.full_path(self.artwork_name_with_tag(tag)),
+            self.full_path(self.artwork_name_without_tag()),
         )
 
     def full_path(self, file):
@@ -150,8 +162,8 @@ class File:
         return "s%02de%02d" % (season, episode)
 
     def nameTagExtension(self):
-        match = re.match('(.*?)(\.s[0-9]+e[0-9]+)?\.([^.]+)', self.name)
-        return [match.group(1), match.group(2), match.group(3)]
+        match = re.match('(.*?)(\.(s[0-9]+e[0-9]+))?\.([^.]+)', self.name)
+        return [match.group(1), match.group(3), match.group(4)]
 
     def hasTag(self):
         _, tag, _ = self.nameTagExtension()
