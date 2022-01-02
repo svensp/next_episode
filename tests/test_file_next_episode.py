@@ -34,3 +34,11 @@ class TestFileApplyNextEpisodeTag:
         file.applyNextEpisodeTag()
         assert not mock_os.rename.called
 
+    @mock.patch('next_episode.file_list.os')
+    def test_should_also_rename_artwork_if_present(self, mock_os):
+        mock_current_directory(mock_os, ['test.jpg'])
+        file = file_list.File.fromRelativePath('./test.txt')
+
+        file.applyNextEpisodeTag()
+        mock_os.rename.assert_called_with('./test.jpg', './test.s01e01-thumb.jpg')
+

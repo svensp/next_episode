@@ -3,19 +3,19 @@ import uuid
 from .template import indentedText
 from .artwork import ArtworkFactory
 
-class SeriesNfo:
+class ShowNfo:
     @staticmethod
     def fromDirectory(directory):
-        return SeriesNfo(directory)
+        return ShowNfo(directory)
 
     def __init__(self, directory):
         self.directory = os.path.abspath(directory)
 
     def save(self):
-        if os.path.exists(self.tv_series_nfo()):
+        if os.path.exists(self.tv_show_nfo()):
             return
 
-        with open(self.tv_series_nfo(), 'w') as file:
+        with open(self.tv_show_nfo(), 'w') as file:
             file.write(
                 '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>\n'
                 '<tvshow>\n'
@@ -45,8 +45,8 @@ class SeriesNfo:
 
         return title+'.jpg'
 
-    def tv_series_nfo(self):
-        return self.directory+'/tvseries.nfo'
+    def tv_show_nfo(self):
+        return self.directory+'/tvshow.nfo'
 
     def title_from_directory(self):
         parts = self.directory.split(os.sep)

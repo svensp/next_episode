@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-<episodedetails>
-    <title>with-artwork</title>
-    <uniqueid type="home" default="true">%%UUID%%</uniqueid>
-    <thumb aspect="banner" preview="">%%ARTWORK%%</thumb>
-</episodedetails>

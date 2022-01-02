@@ -1,2 +1,3 @@
 .idea
 __pycache__
+/src/next_episode.egg-info/

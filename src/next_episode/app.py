@@ -1,7 +1,7 @@
 import sys
 import os
 from .file_list import FileList, File
-from .series_nfo import SeriesNfo
+from .show_nfo import ShowNfo
 
 
 class App:
@@ -40,8 +40,8 @@ class App:
         target = File.fromRelativePath(sys.argv[1])
         target.generate_nfo()
 
-    def generate_series_nfo(self):
-        series_nfo = SeriesNfo.fromDirectory(os.getcwd())
+    def generate_show_nfo(self):
+        series_nfo = ShowNfo.fromDirectory(os.getcwd())
         series_nfo.save()
 
     def assert_argument_passed(self):

@@ -93,9 +93,33 @@ class File:
             return
 
         os.rename(
-            self.directoryPath+'/'+self.name,
-            self.directoryPath+'/'+self.nameWithTag(tag)
-                  )
+            self.full_path(self.name),
+            self.full_path(self.nameWithTag(tag))
+        )
+        self.match_artwork(tag)
+
+    def match_artwork(self, tag):
+        if not self.artwork_name_without_tag() in self.siblings():
+            return
+
+        os.rename(
+            self.full_path(self.artwork_name_without_tag()),
+            self.full_path(self.artwork_name_with_tag(tag))
+        )
+
+    def full_path(self, file):
+        return self.directoryPath+'/'+file
+
+    def artwork_name_without_tag(self):
+        name, _, extension = self.nameTagExtension()
+        return name+'.jpg'
+
+    def artwork_name_with_tag(self, tag):
+        name, _, extension = self.nameTagExtension()
+        return '.'.join([name, self.tag_with_artwork_type(tag), 'jpg'])
+
+    def tag_with_artwork_type(self, tag):
+        return tag+'-thumb'
 
     def nameWithoutTag(self):
         name, _, extension = self.nameTagExtension()
