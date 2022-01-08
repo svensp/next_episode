@@ -28,5 +28,6 @@ setup(name="next_episode",
           'bin/fill-episode',
           'bin/generate-nfo',
           'bin/generate-show-nfo',
+          'bin/next-artwork',
                ]
       )

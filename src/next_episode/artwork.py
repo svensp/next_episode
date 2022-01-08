@@ -1,5 +1,6 @@
 import os
 import re
+import shutil
 
 class ArtworkFactory:
     @staticmethod
@@ -18,10 +19,10 @@ class Artwork:
         siblings = self._siblings()
 
         if 'banner.jpg' not in siblings:
-            self._rename('banner.jpg')
+            self._copy('banner.jpg')
             return
 
-        self._rename(self.next_season_name())
+        self._copy(self.next_season_name())
 
     def next_season_name(self):
         return self.season_name(self.next_season())
@@ -46,6 +47,6 @@ class Artwork:
     def _siblings(self):
         return os.listdir(self.directoryPath)
 
-    def _rename(self, file_name):
-        os.rename(self.path, self.directoryPath+'/'+file_name)
+    def _copy(self, file_name):
+        shutil.copy(self.path, self.directoryPath+'/'+file_name)
 
