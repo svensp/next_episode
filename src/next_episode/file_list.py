@@ -119,6 +119,9 @@ class File:
             self.full_path(self.artwork_name_without_tag()),
         )
 
+    def use_as_next_artwork(self):
+        pass
+
     def full_path(self, file):
         return self.directoryPath+'/'+file
 

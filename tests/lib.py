@@ -1,9 +1,12 @@
 import os
 
 
-def mock_current_directory(mock_os, present_files, basename='test.txt'):
+def mock_current_directory(mock_os, present_files, basename='test.txt', abspath=None):
+    if abspath is None:
+        abspath = './'+basename
+
     mock_os.path.basename.return_value = basename
-    mock_os.path.abspath.return_value = './'+basename
+    mock_os.path.abspath.return_value = abspath
     mock_os.path.dirname.return_value = '.'
     mock_os.listdir.return_value = present_files
 

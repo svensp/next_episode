@@ -1,6 +1,7 @@
 import sys
 import os
-from .file_list import FileList, File
+from .file_list import File
+from .artwork import Artwork
 from .show_nfo import ShowNfo
 
 
@@ -11,6 +12,13 @@ class App:
 
         target = File.fromRelativePath(sys.argv[1])
         target.applyNextEpisodeTag()
+        return 0
+
+    def next_artwork(self):
+        self.assert_argument_passed()
+
+        target = Artwork(sys.argv[1])
+        target.as_next_season()
         return 0
 
     def nextSeason(self):
