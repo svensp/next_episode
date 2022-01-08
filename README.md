@@ -13,3 +13,4 @@ intended to be used as hotkeys in the ranger or midnight commander file managers
 - generate-nfo generate a minimal .nfo file with unique uuid and title based on the files filename without tag or
   extension
 - generate-series-nfo generate a minimal tvseries.nfo with unique uuid and title based on the directory itlives in
+- next-artwork copy image file to banner.jpg, season01-banner.jpg, season02-banner.jpg ...
