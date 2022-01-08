@@ -7,14 +7,19 @@ setup(name="next_episode",
       version="1.0.0",
       author="Sven Speckmaier",
       license="MIT",
-      url='',
+      url='https://github.com/svensp/next_episode',
+      download_url='https://github.com/svensp/next_episode/archive/1.0.0.tar.gz',
       packages=find_packages(where="src"),
+      description="console commands to turn video folders into kodi importable tv seriesj",
       long_description=long_description,
       long_description_content_type="text/markdown",
       install_requires=[
           'uuid'
       ],
       package_dir={"": "src"},
+      keywords=[
+          'kodi'
+      ],
       classifiers=[
           "Programming Language :: Python :: 3",
           "License :: OSI Approved :: MIT License",
